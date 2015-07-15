@@ -237,8 +237,8 @@ class gapi {
     $valid_operators = '(!~|=~|==|!=|>|<|>=|<=|=@|!@)';
 
     $filter = preg_replace('/\s\s+/', ' ', trim($filter)); //Clean duplicate whitespace
-    $filter = str_replace(array(',', ';'), array('\,', '\;'), $filter); //Escape Google Analytics reserved characters
     $filter = preg_replace('/(&&\s*|\|\|\s*|^)([a-z0-9]+)(\s*' . $valid_operators . ')/i','$1ga:$2$3',$filter); //Prefix ga: to metrics and dimensions
+    $filter = preg_replace('/([,;]){1}(?!ga\:)/', '\\\\$1', $filter); //Escape Google Analytics reserved characters
     $filter = preg_replace('/[\'\"]/i', '', $filter); //Clear invalid quote characters
     $filter = preg_replace(array('/\s*&&\s*/','/\s*\|\|\s*/','/\s*' . $valid_operators . '\s*/'), array(';', ',', '$1'), $filter); //Clean up operators
 
